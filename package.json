@@ -9,7 +9,11 @@
   "author": "Heytor Toito de Carvalho",
   "license": "ISC",
   "dependencies": {
+    "cpf-check": "^3.0.0",
+    "cpf-cnpj-validator": "^1.0.3",
+    "email-validator": "^2.0.4",
     "express": "^4.18.2",
+    "express-validator": "^6.14.3",
     "sequelize": "^6.28.0"
   }
 }
