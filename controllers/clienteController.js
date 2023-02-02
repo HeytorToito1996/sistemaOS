@@ -35,6 +35,42 @@ router.post('/cadastroCliente',(request,response)=>{
     
 });
 
+router.put('/atualizarClientes/:id',(request,response)=>{
+    let nome = request.body.nome;
+    let endereco = request.body.endereco;
+    let cpf = request.body.cpf;
+    let telefone = request.body.telefone;
+    let email = request.body.email;
+    let observacao = request.body.observacao;
+    let id = request.params.id;
+
+    if (!cpfvalid.validate(cpf)) {
+        response.send('CPF Incorreto');          
+    } else if(!validator.validate(email)){
+        response.send('E-Mail Inválido');
+    }
+    
+    else {
+            Cliente.update({
+                nome:nome,
+                endereco:endereco,
+                cpf:cpf,
+                telefone:telefone,
+                email:email,
+                observacao:observacao,
+        },
+        {
+            where:{id:id}
+        }).then(()=>{
+            response.send('Cliente Atualizado com Sucesso');
+        }).catch((erro)=>{
+            console.error(erro);
+            response.send('Falha ao Atualizar os Dados deste Cliente');        
+        })
+    }
+
+})
+
 router.get('/clientes',(request,response)=>{
     Cliente.findAll().then((clientes)=>{
         response.send({clientes: clientes});
