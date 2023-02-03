@@ -1,0 +1,27 @@
+<table class="table is-fullwidth">
+    <thead>
+        <tr>
+            <th><abbr title="Codigo">Código</abbr></th>
+            <th><abbr title="Nome">Nome</abbr></th>
+            <th><abbr title="CPF">CPF</abbr></th>
+            <th><abbr title="Telefone">Telefone</abbr></th>
+            <th><abbr title="Endereco">Endereço </abbr></th>
+            <th><abbr title="eMail">e-Mail</abbr></th>
+            <th><abbr title="observacao">Observações</abbr></th>
+            <th><abbr title="acao">Ação</abbr></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each clientes}}
+        <tr class="is-fullwidth">
+            <th><abbr title="Codigo">{{id}}</abbr></th>
+            <th><abbr title="Nome">{{nome}}</abbr></th>
+            <th><abbr title="CPF">{{cpf}}</abbr></th>
+            <th><abbr title="Telefone">{{telefone}}</abbr></th>
+            <th><abbr title="Endereco">{{endereco}}</abbr></th>
+            <th><abbr title="eMail">{{email}}</abbr></th>
+            <th><abbr title="observacao">{{observacao}}</abbr></th>
+        </tr>
+       {{/each}} 
+    </tbody>
+</table>

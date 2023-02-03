@@ -18,21 +18,30 @@ router.post('/cadastroCliente',(request,response)=>{
     } 
 
     else {
-        Cliente.create({
-            nome:nome,
-            endereco:endereco,
-            cpf:cpf,
-            telefone:telefone,
-            email:email,
-            observacao:observacao
-        }).then(()=>{
-            response.send('Cliente Cadastrado com Sucesso');
-        }).catch((erro)=>{
-            console.error(erro);
-            response.send('Falha ao Cadastrar este Cliente');
-        })
+        Cliente.findOne({where:{cpf:cpf}})
+        .then(clienteLocalizado =>{
+            if(clienteLocalizado){
+            response.send('Já Existe um Cliente Cadastrado com esse CPF!');
+            }
+
+            else {
+                    Cliente.create({
+                        nome:nome,
+                        endereco:endereco,
+                        cpf:cpf,
+                        telefone:telefone,
+                        email:email,
+                        observacao:observacao
+                    }).then(()=>{
+                        response.send('Cliente Cadastrado com Sucesso');
+                    }).catch((erro)=>{
+                        console.error(erro);
+                        response.send('Falha ao Cadastrar este Cliente');
+                    })
+            }
+        });
     }
-    
+
 });
 
 router.put('/atualizarClientes/:id',(request,response)=>{
@@ -72,9 +81,21 @@ router.put('/atualizarClientes/:id',(request,response)=>{
 })
 
 router.get('/clientes',(request,response)=>{
-    Cliente.findAll().then((clientes)=>{
-        response.send({clientes: clientes});
+    Cliente.findAll({raw:true,nest:true}).then((clientes)=>{
+        //console.log(clientes);
+        response.render('listarCliente',{clientes: clientes});
     });
+});
+
+router.get('/buscaCliente/:cpf',(request,response)=>{
+    let busca = request.params.cpf;
+
+    Cliente.findAll({where:{cpf:busca}}).then((clientes)=>{
+        response.send({clientes: clientes});
+    }).catch((erro)=>{
+        //console.error(erro);
+        response.send('Não Há Cliente com o CPF Informado');
+    })
 });
 
 module.exports = router;

@@ -5,6 +5,8 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const pdfkit = require('pdfkit');
+
+const { cpf } = require('cpf-cnpj-validator');
 const recibo = new pdfkit();
 const hoje = new Date();
 const ano = hoje.getFullYear();
@@ -74,8 +76,8 @@ router.post('/cadastroOS',(request,response)=>{
 });
 
 router.get('/ordens',(request,response)=>{
-    OrdemServico.findAll().then((ordens)=>{
-        response.send({ordens: ordens});
+    OrdemServico.findAll({raw:true,nest:true}).then((ordens)=>{
+        response.render('listarOs',{ordens: ordens});
     })
 });
 
@@ -137,6 +139,17 @@ router.put('/atualizarOs/:id',(request,response)=>{
         response.send('Falha ao Atualizar esta O.S');
     });
 
-})
+});
+
+router.get('/buscaOs/:cpf',(request,response)=>{
+    let busca = request.params.codigo;
+
+    OrdemServico.findAll({where:{idCliente:busca}}).then((ordens)=>{
+        response.send({ordens: ordens});
+    }).catch((erro)=>{
+        console.error(erro);
+        response.send('Falha ao Localizar Informações');
+    })
+});
 
 module.exports = router;

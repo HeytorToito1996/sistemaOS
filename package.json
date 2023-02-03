@@ -9,10 +9,12 @@
   "author": "Heytor Toito de Carvalho",
   "license": "ISC",
   "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.5",
     "cpf-check": "^3.0.0",
     "cpf-cnpj-validator": "^1.0.3",
     "email-validator": "^2.0.4",
     "express": "^4.18.2",
+    "express-handlebars": "^6.0.7",
     "express-validator": "^6.14.3",
     "jspdf": "^2.5.1",
     "pdfkit": "^0.13.0",

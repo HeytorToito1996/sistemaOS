@@ -1,0 +1,27 @@
+<table class="table is-fullwidth">
+    <thead>
+        <tr>
+            <th><abbr title="Aparelho">Aparelho</abbr></th>
+            <th><abbr title="Defeito">Defeito</abbr></th>
+            <th><abbr title="Servico">Serviço</abbr></th>
+            <th><abbr title="Valor">Valor</abbr></th>
+            <th><abbr title="Status">Status</abbr></th>
+            <th><abbr title="Autorizado">Autorizado ?</abbr></th>
+            <th><abbr title="Cliente">Cliente</abbr></th>
+            <th><abbr title="acao">Ação</abbr></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each ordens}}
+        <tr class="is-fullwidth">
+            <th><abbr title="Aparelho">{{aparelho}}</abbr></th>
+            <th><abbr title="Defeito">{{defeito}}</abbr></th>
+            <th><abbr title="Serviço">{{servico}}</abbr></th>
+            <th><abbr title="Valor">{{valor}}</abbr></th>
+            <th><abbr title="Status">{{statusId}}</abbr></th>
+            <th><abbr title="autorizado">{{autorizado}}</abbr></th>
+            <th><abbr title="Cliente">{{idCliente}}</abbr></th>
+        </tr>
+       {{/each}} 
+    </tbody>
+</table>
