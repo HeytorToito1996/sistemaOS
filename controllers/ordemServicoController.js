@@ -1,3 +1,4 @@
+const Cliente = require('../models/Cliente');
 const OrdemServico = require('../models/Ordem')
 const Status = require('../models/Status');
 const Autorizacao = require('../models/Autorizacao');
@@ -75,11 +76,28 @@ router.post('/cadastroOS',(request,response)=>{
 
 });
 
-router.get('/ordens',(request,response)=>{
-    OrdemServico.findAll({raw:true,nest:true}).then((ordens)=>{
-        response.render('listarOs',{ordens: ordens});
+router.get('/ordens', (request, response) => {
+    Cliente.findAll({raw:true,nest:true}).then((clienteMap)=>{
+        Autorizacao.findAll({raw:true,nest:true}).then((autorizacaoMap) =>{
+
+            Status.findAll({ raw: true, nest: true }).then(function(statusMap) {
+    
+            OrdemServico.findAll({ raw: true, nest: true }).then((ordens) => {
+                const ordensWithStatus = ordens.map(ordem => {  
+                ordem.nome = clienteMap.find(n=> n.id === ordem.idCliente).nome;     
+                ordem.autorizacao = autorizacaoMap.find(a=> a.id === ordem.autorizado).nome;   
+                ordem.status = statusMap.find(s => s.id === ordem.statusId).nome;
+                return ordem;
+            });
+    
+                //console.log(ordens);
+                response.render('listarOs', { ordens: ordensWithStatus });
+            });
+            });
+        });
     })
-});
+  });
+  
 
 router.put('/atualizarOs/:id',(request,response)=>{
     let aparelho = request.body.aparelho;

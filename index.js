@@ -8,6 +8,7 @@ const hbs = require('express-handlebars');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const clienteController = require('./controllers/clienteController');
 const ordemServicoController = require('./controllers/ordemServicoController');
+const minhasrotas = require('./routes/minhasrotas')
 //template engine
 app.set('view engine','handlebars');
 app.engine('handlebars',hbs.engine({defaultLayout: 'main',
@@ -20,9 +21,7 @@ app.use(express.static(path.join(__dirname + '/public')));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 //rotas
-app.get('/',(request,response)=>{
-    response.render('inicio');
-})
+app.use('/',minhasrotas)
 app.use('/',clienteController)
 app.use('/',ordemServicoController)
 
