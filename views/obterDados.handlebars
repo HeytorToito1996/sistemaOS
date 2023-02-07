@@ -1,0 +1,44 @@
+<h1>Atualizar Dados Cadastrais</h1>
+<form method="submit" action="/atualizarClientes">
+{{#each dados}}
+    <div class="field">
+        <label class="label">Nome :</label>
+        <div class="control">
+            <input class="input" value ="{{nome}}" name="nome" type="text" placeholder="Nome">
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Endereço :</label>
+        <div class="control">
+            <input class="input" value="{{endereco}}" name="endereco" type="text" placeholder="Endereço">
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">CPF :</label>
+        <div class="control">
+            <input class="input" value="{{cpf}}" name="cpf" type="text" placeholder="CPF">
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">e-Mail :</label>
+        <div class="control">
+            <input class="input" value="{{email}}" name="nome" type="text" placeholder="e-Mail">
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Observação :</label>
+        <div class="control">
+            <textarea class="textarea" placeholder="e.g. Hello world">
+                {{observacao}}
+            </textarea>
+        </div>
+    </div>
+   
+    <input type="hidden" value="{{id}}" name="id"/>
+    {{/each}}
+    <button type="submit is-primary" value="Atualizar Dados"/>
+</form>

@@ -12,8 +12,13 @@ const minhasrotas = require('./routes/minhasrotas')
 //template engine
 app.set('view engine','handlebars');
 app.engine('handlebars',hbs.engine({defaultLayout: 'main',
-    partialsDir: __dirname + '/views/partials/'
+    partialsDir: __dirname + '/views/partials/',
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true
+      }
 }));
+
 //configurando a leitura de arquivos css
 app.use(express.static(path.join(__dirname + '/public')));
 

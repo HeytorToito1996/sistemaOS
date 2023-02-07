@@ -27,6 +27,8 @@ router.post('/cadastroOS',(request,response)=>{
     let autorizado = request.body.autorizado;
     let idCliente = request.body.idCliente;
 
+    
+
     OrdemServico.create({
         aparelho:aparelho,
         defeito:defeito,
@@ -76,6 +78,7 @@ router.post('/cadastroOS',(request,response)=>{
 
 });
 
+
 router.get('/ordens', (request, response) => {
     Cliente.findAll({raw:true,nest:true}).then((clienteMap)=>{
         Autorizacao.findAll({raw:true,nest:true}).then((autorizacaoMap) =>{
@@ -96,7 +99,7 @@ router.get('/ordens', (request, response) => {
             });
         });
     })
-  });
+});
   
 
 router.put('/atualizarOs/:id',(request,response)=>{
@@ -169,5 +172,6 @@ router.get('/buscaOs/:cpf',(request,response)=>{
         response.send('Falha ao Localizar Informações');
     })
 });
+
 
 module.exports = router;

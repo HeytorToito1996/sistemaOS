@@ -3,6 +3,8 @@ const cpfvalid = require('cpf-check');
 const express = require('express');
 const router = express.Router();
 const validator = require('email-validator');
+//Cadastrar Novo Cliente
+
 router.post('/cadastroCliente',(request,response)=>{
     let nome = request.body.nome;
     let endereco = request.body.endereco;
@@ -44,6 +46,7 @@ router.post('/cadastroCliente',(request,response)=>{
 
 });
 
+//Atualizar dados Clientes
 router.put('/atualizarClientes/:id',(request,response)=>{
     let nome = request.body.nome;
     let endereco = request.body.endereco;
@@ -51,7 +54,7 @@ router.put('/atualizarClientes/:id',(request,response)=>{
     let telefone = request.body.telefone;
     let email = request.body.email;
     let observacao = request.body.observacao;
-    let id = request.params.id;
+    let id = request.body.id;
 
     if (!cpfvalid.validate(cpf)) {
         response.send('CPF Incorreto');          
