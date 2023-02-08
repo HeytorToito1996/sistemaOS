@@ -16,7 +16,11 @@ rotas.get('/cadastrarCliente',(request,response)=>{
 rotas.get('/cadastrarOS',async(request,response)=>{
     const listaClientes = await Cliente.findAll({raw:true,nest:true});
     response.render('cadastrarOS',{listaClientes:listaClientes});
-})
+});
+
+rotas.get('/buscaOs',(request,response)=>{
+    response.render('buscaOS');
+});
 
 //Encaminhar dados já Cadastrados para o formulário
 rotas.get('/atualizaCliente/:id',async(request,response)=>{

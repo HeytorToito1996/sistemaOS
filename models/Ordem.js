@@ -17,6 +17,10 @@ const OrdemServico = conexao.sequelize.define('ordemServico',{
         type:conexao.Sequelize.STRING
     },
 
+    estado:{
+        type:conexao.Sequelize.STRING
+    },
+
     valor :{
         type:conexao.Sequelize.DOUBLE
     },

@@ -7,6 +7,7 @@ const router = express.Router();
 const fs = require('fs');
 const pdfkit = require('pdfkit');
 const { cpf } = require('cpf-cnpj-validator');
+const { Op } = require('sequelize');
 const recibo = new pdfkit();
 const hoje = new Date();
 const ano = hoje.getFullYear();
@@ -19,6 +20,7 @@ if (mes < 10) mes = '0' + mes;
 router.post('/cadastroOS',(request,response)=>{
     let aparelho = request.body.aparelho;
     let defeito = request.body.defeito;
+    let estado = request.body.estado;
     let servico = request.body.servico;
     let valor = request.body.valor;
     let idCliente = request.body.cliente;
@@ -28,6 +30,7 @@ router.post('/cadastroOS',(request,response)=>{
     OrdemServico.create({
         aparelho:aparelho,
         defeito:defeito,
+        estado:estado,
         servico:servico,
         valor:valor,
         statusId:2,
@@ -45,10 +48,13 @@ router.post('/cadastroOS',(request,response)=>{
         recibo.moveDown();
         recibo.font('Helvetica').text(`Aparelho: ${aparelho}`);
         recibo.text(`Defeito: ${defeito}`);
+        recibo.text(`Estado Atual: ${estado}`);
         recibo.text(`Serviço: ${servico}`);
         recibo.text(`Valor: R$ ${valor}`);
-        //recibo.text(`Observação: ${observacao}`);
+        recibo.text(`Garantia: 30() 60() 90()`);
         recibo.text(`Data: ${dia}/${mes}/${ano}`);
+        recibo.moveDown();
+        recibo.moveDown();
         recibo.moveDown();
         recibo.moveDown();
         recibo.moveDown();
@@ -100,6 +106,7 @@ router.get('/ordens', (request, response) => {
 router.post('/atualizarOs/',(request,response)=>{
     let aparelho = request.body.aparelho;
     let defeito = request.body.defeito;
+    let estado = request.body.estado;
     let servico = request.body.servico;
     let valor = request.body.valor;
     let statusId = request.body.status;
@@ -109,6 +116,7 @@ router.post('/atualizarOs/',(request,response)=>{
     OrdemServico.update({
         aparelho:aparelho,
         defeito:defeito,
+        estado:estado,
         servico:servico,
         valor:valor,
         statusId:statusId,
@@ -126,9 +134,13 @@ router.post('/atualizarOs/',(request,response)=>{
         recibo.moveDown();
         recibo.font('Helvetica').text(`Aparelho: ${aparelho}`);
         recibo.text(`Defeito: ${defeito}`);
+        recibo.text(`Estado Atual: ${estado}`);
         recibo.text(`Serviço: ${servico}`);
         recibo.text(`Valor: R$ ${valor}`);
+        recibo.text(`Garantia: 30() 60() 90()`);
         recibo.text(`Data: ${dia}/${mes}/${ano}`);
+        recibo.moveDown();
+        recibo.moveDown();
         recibo.moveDown();
         recibo.moveDown();
         recibo.moveDown();
@@ -152,16 +164,27 @@ router.post('/atualizarOs/',(request,response)=>{
 
 });
 
-router.get('/buscaOs/:cpf',(request,response)=>{
-    let busca = request.params.codigo;
+router.get('/buscarOrdem',async(request,response)=>{
+    const busca = request.query.busca;
+    Cliente.findAll({raw:true,nest:true}).then((clienteMap)=>{
+        Autorizacao.findAll({raw:true,nest:true}).then((autorizacaoMap) =>{
 
-    OrdemServico.findAll({where:{idCliente:busca}}).then((ordens)=>{
-        response.send({ordens: ordens});
-    }).catch((erro)=>{
-        console.error(erro);
-        response.send('Falha ao Localizar Informações');
+            Status.findAll({ raw: true, nest: true }).then(function(statusMap) {
+    
+            OrdemServico.findAll({where:{[Op.or]:[{id:busca},{idCliente:busca}]}}).then((ordens) => {
+                const ordensWithStatus = ordens.map(ordem => {  
+                ordem.nome = clienteMap.find(n=> n.id === ordem.idCliente).nome;     
+                ordem.autorizacao = autorizacaoMap.find(a=> a.id === ordem.autorizado).nome;   
+                ordem.status = statusMap.find(s => s.id === ordem.statusId).nome;
+                return ordem;
+            });
+    
+                //console.log(ordens);
+                response.render('encontrarOs', { dados: ordensWithStatus });
+            });
+            });
+        });
     })
 });
-
 
 module.exports = router;
