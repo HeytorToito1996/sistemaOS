@@ -42,6 +42,11 @@ const OrdemServico = conexao.sequelize.define('ordemServico',{
     }
 });
 
+/*OrdemServico.belongsTo(Autorizacao,{foreignKey:'autorizado',allowNull:false});
+OrdemServico.belongsTo(Status,{foreignKey:'statusId', allowNull:false});
+OrdemServico.belongsTo(Cliente,{foreignKey:'idCliente', allowNull:false});
+OrdemServico.sync({force:true})*/
+
 module.exports = OrdemServico;
 
 

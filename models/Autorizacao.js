@@ -6,5 +6,7 @@ const Autorizacao = conexao.sequelize.define('Autorizacao',{
     }
 });
 
+//Autorizacao.sync({force:true});
+
 module.exports = Autorizacao;
 

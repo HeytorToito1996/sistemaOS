@@ -6,4 +6,6 @@ const Status = conexao.sequelize.define('status',{
     }
 });
 
+//Status.sync({force:true});
+
 module.exports = Status;

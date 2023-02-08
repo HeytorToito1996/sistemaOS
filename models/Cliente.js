@@ -25,4 +25,6 @@ const Cliente = conexao.sequelize.define('Clientes',{
         type:conexao.Sequelize.STRING
     }
 });
+
+//Cliente.sync({force:true});
 module.exports = Cliente;
