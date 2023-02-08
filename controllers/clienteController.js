@@ -22,7 +22,7 @@ router.post('/cadastroCliente',(request,response)=>{
         Cliente.findOne({where:{cpf:cpf}})
         .then(clienteLocalizado =>{
             if(clienteLocalizado){
-            response.send('Já Existe um Cliente Cadastrado com esse CPF!');
+                response.render('mensagem',{mensagem:'Já existe um Cliente Cadastrado com esse CPF'});
             }
 
             else {
@@ -34,10 +34,10 @@ router.post('/cadastroCliente',(request,response)=>{
                         email:email,
                         observacao:observacao
                     }).then(()=>{
-                        response.send('Cliente Cadastrado com Sucesso');
+                        response.render('mensagem',{mensagem:'Cliente Cadastrado com Sucesso'});
                     }).catch((erro)=>{
                         console.error(erro);
-                        response.send('Falha ao Cadastrar este Cliente');
+                        response.render('mensagem',{mensagem:'Falha ao Cadastrar Cliente'});
                     })
             }
         });
@@ -46,7 +46,7 @@ router.post('/cadastroCliente',(request,response)=>{
 });
 
 //Atualizar dados Clientes
-router.put('/atualizarClientes/:id',(request,response)=>{
+router.post('/atualizarClientes',(request,response)=>{
     let nome = request.body.nome;
     let endereco = request.body.endereco;
     let cpf = request.body.cpf;
@@ -73,10 +73,10 @@ router.put('/atualizarClientes/:id',(request,response)=>{
         {
             where:{id:id}
         }).then(()=>{
-            response.send('Cliente Atualizado com Sucesso');
+            response.render('mensagem',{mensagem:'Cliente Atualizado com Sucesso'});
         }).catch((erro)=>{
             console.error(erro);
-            response.send('Falha ao Atualizar os Dados deste Cliente');        
+            response.render('mensagem',{mensagem:'Falha ao Atualizar os Dados do Cliente'});        
         })
     }
 
