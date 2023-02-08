@@ -70,10 +70,10 @@ router.post('/cadastroOS',(request,response)=>{
         });
         recibo.end();
 
-        response.send('Ordem de Serviço gerada com Sucesso');
+        response.render('mensagem',{mensagem:'Ordem de Serviço gerada com Sucesso'});
     }).catch((erro)=>{
         console.error(erro);
-        response.send('Falha ao Cadastrar esta O.S');
+        response.render('mensagem',{mensagem:'Falha ao Gerar esta Ordem de Serviço'});
     });
 
 
@@ -156,10 +156,10 @@ router.post('/atualizarOs/',(request,response)=>{
         });
         recibo.end();
 
-        response.send('Ordem de Serviço Atualizada com Sucesso');
+        response.render('mensagem',{mensagem:'Ordem de Serviço Atualizada com Sucesso'});
     }).catch((erro)=>{
         console.error(erro);
-        response.send('Falha ao Atualizar esta O.S');
+        response.render('mensagem',{mensagem:'Falha ao atualizar OS'});
     });
 
 });
