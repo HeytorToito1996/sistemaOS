@@ -13,40 +13,24 @@
 
 <div class="field">
   <label class="label">Servico</label>
-    <input class="input" type="text" placeholder="O que foi realizado">
+    <input class="input" name="servico" type="text" placeholder="O que foi/será realizado?" required/>
 </div>
 
 <div class="field">
   <label class="label">Valor</label>
-    <input class="input" type="number" placeholder="Valor">
+    <input class="input" name="valor" type="number" placeholder="Valor" required/>
 </div>
 
-<div class="field">
-  <label class="label">Status</label>
-  <div class="control">
-    <div class="select">
-      <select>
-        <option value=""></option>
-      </select>
-    </div>
-  </div>
+<label class="label">Cliente:</label>
+<div class="select">  
+   <select name="cliente">
+    {{#each listaClientes}}
+    <option value="{{id}}">{{nome}}</option>
+    {{/each}}
+  </select>
 </div>
 
-<div class="field">
-  <label class="label">Autorizado?</label>
-  <div class="control">
-    <div class="select">
-      <select>
-        <option value=""></option>
-      </select>
-    </div>
-  </div>
-</div>
+<button class="button is-primary">Cadastrar OS</button>
 
-
-<div class="field is-grouped">
-  <div class="control">
-    <button class="button is-link">Registrar OS</button>
-  </div>
-</div>
 </form>
+

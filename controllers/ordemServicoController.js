@@ -6,7 +6,6 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const pdfkit = require('pdfkit');
-
 const { cpf } = require('cpf-cnpj-validator');
 const recibo = new pdfkit();
 const hoje = new Date();
@@ -22,10 +21,7 @@ router.post('/cadastroOS',(request,response)=>{
     let defeito = request.body.defeito;
     let servico = request.body.servico;
     let valor = request.body.valor;
-    let statusId = request.body.status;
-    let observacao = request.body.observacao;
-    let autorizado = request.body.autorizado;
-    let idCliente = request.body.idCliente;
+    let idCliente = request.body.cliente;
 
     
 
@@ -34,9 +30,8 @@ router.post('/cadastroOS',(request,response)=>{
         defeito:defeito,
         servico:servico,
         valor:valor,
-        statusId:statusId,
-        observacao:observacao,
-        autorizado:autorizado,
+        statusId:2,
+        autorizado:1,
         idCliente:idCliente
     }).then(()=>{
         const filename = `recibo-${Date.now()}.pdf`;
@@ -51,8 +46,8 @@ router.post('/cadastroOS',(request,response)=>{
         recibo.font('Helvetica').text(`Aparelho: ${aparelho}`);
         recibo.text(`Defeito: ${defeito}`);
         recibo.text(`Serviço: ${servico}`);
-        recibo.text(`Valor: R$ ${valor.toFixed(2)}`);
-        recibo.text(`Observação: ${observacao}`);
+        recibo.text(`Valor: R$ ${valor}`);
+        //recibo.text(`Observação: ${observacao}`);
         recibo.text(`Data: ${dia}/${mes}/${ano}`);
         recibo.moveDown();
         recibo.moveDown();
@@ -102,16 +97,14 @@ router.get('/ordens', (request, response) => {
 });
   
 
-router.put('/atualizarOs/:id',(request,response)=>{
+router.post('/atualizarOs/',(request,response)=>{
     let aparelho = request.body.aparelho;
     let defeito = request.body.defeito;
     let servico = request.body.servico;
     let valor = request.body.valor;
     let statusId = request.body.status;
-    let observacao = request.body.observacao;
-    let autorizado = request.body.autorizado;
-    let idCliente = request.body.idCliente;
-    let id = request.params.id;
+    let autorizado = request.body.autorizacao;
+    let id = request.body.id;
 
     OrdemServico.update({
         aparelho:aparelho,
@@ -119,9 +112,7 @@ router.put('/atualizarOs/:id',(request,response)=>{
         servico:servico,
         valor:valor,
         statusId:statusId,
-        observacao:observacao,
         autorizado:autorizado,
-        idCliente:idCliente
     },
     {where:{id:id}}).then(()=>{
         const filename = `recibo-${Date.now()}.pdf`;
@@ -136,8 +127,7 @@ router.put('/atualizarOs/:id',(request,response)=>{
         recibo.font('Helvetica').text(`Aparelho: ${aparelho}`);
         recibo.text(`Defeito: ${defeito}`);
         recibo.text(`Serviço: ${servico}`);
-        recibo.text(`Valor: R$ ${valor.toFixed(2)}`);
-        recibo.text(`Observação: ${observacao}`);
+        recibo.text(`Valor: R$ ${valor}`);
         recibo.text(`Data: ${dia}/${mes}/${ano}`);
         recibo.moveDown();
         recibo.moveDown();

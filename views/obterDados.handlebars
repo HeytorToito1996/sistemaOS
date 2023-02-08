@@ -1,5 +1,5 @@
 <h1>Atualizar Dados Cadastrais</h1>
-<form method="submit" action="/atualizarClientes">
+<form method="post" action="/atualizarClientes">
 {{#each dados}}
     <div class="field">
         <label class="label">Nome :</label>
@@ -32,13 +32,13 @@
     <div class="field">
         <label class="label">Observação :</label>
         <div class="control">
-            <textarea class="textarea" placeholder="e.g. Hello world">
+            <textarea class="textarea" placeholder="">
                 {{observacao}}
             </textarea>
         </div>
     </div>
    
     <input type="hidden" value="{{id}}" name="id"/>
+    <button class="button is-primary" type="submit"/>Atualizar Dados</button>
     {{/each}}
-    <button type="submit is-primary" value="Atualizar Dados"/>
 </form>

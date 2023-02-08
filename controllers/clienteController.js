@@ -4,7 +4,6 @@ const express = require('express');
 const router = express.Router();
 const validator = require('email-validator');
 //Cadastrar Novo Cliente
-
 router.post('/cadastroCliente',(request,response)=>{
     let nome = request.body.nome;
     let endereco = request.body.endereco;

@@ -1,10 +1,10 @@
 <h1>Atualizar Ordem de Serviço</h1>
-<form action="/atualizarOs" method="post">
+<form action="/atualizarOs/" method="post">
 {{#each ordem}}
     <div class="field">
     <label class="label">Aparelho</label>
     <div class="control">
-        <input class="input" name="aparelho" value="{{ordem.aparelho}}" type="text" placeholder="Aparelho/Modelo" required/>
+        <input class="input" name="aparelho" value="{{aparelho}}" type="text" placeholder="Aparelho/Modelo" required/>
     </div>
     </div>
 
@@ -15,25 +15,32 @@
 
     <div class="field">
     <label class="label">Servico</label>
-        <input class="input" value="{{servico}}" type="text" placeholder="O que foi realizado">
+        <input class="input" name="servico" value="{{servico}}" type="text" placeholder="O que foi realizado">
     </div>
 
     <div class="field">
     <label class="label">Valor</label>
-        <input class="input" value="{{valor}}" type="number" placeholder="Valor">
+        <input class="input" name="valor" value="{{valor}}" type="number" placeholder="Valor">
     </div>
 
     <label class="label">Autorizado?</label>
-    <select name="autorizacao">
-      <option value="{{autorizado}}">{{autorizacao}}</option>
-    </select>
-
+    <div class="select">
+        <select name="autorizacao">
+            {{#each ../autorizado}}
+                <option value="{{id}}">{{nome}}</option>
+            {{/each}}
+        </select>
+    </div>
     <label class="label">Situação</label>
-    <select name="status">
-        <option value="{{statusId}}">{{status}}</option>
-    </select>
-
+    <div class="select">
+        <select name="status">
+            {{#each ../status}}
+                 <option value="{{id}}">{{nome}}</option>
+            {{/each}}
+        </select>
+    </div>
     <input type="hidden" value="{{id}}" name="id"/>
+    
+    <button style="float:right;" class="button is-primary" type="submit"/>Atualizar OS</button>
     {{/each}}
-    <button type="submit is-primary" value="Atualizar OS"/>
 </form>

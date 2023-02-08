@@ -13,42 +13,26 @@ rotas.get('/cadastrarCliente',(request,response)=>{
     response.render('cadastrarCliente');
 });
 
-rotas.get('/cadastrarOS',(request,response)=>{
-    response.render('cadastrarOS');
+rotas.get('/cadastrarOS',async(request,response)=>{
+    const listaClientes = await Cliente.findAll({raw:true,nest:true});
+    response.render('cadastrarOS',{listaClientes:listaClientes});
 })
 
 //Encaminhar dados já Cadastrados para o formulário
-rotas.get('/atualizaCliente/:id',async (request,response)=>{
+rotas.get('/atualizaCliente/:id',async(request,response)=>{
     const busca = request.params.id;
-    const [autorizacao,status] = await Promise.all([
-        Autorizacao.findAll({raw:true,nest:true}),
-        Status.findAll({raw:true,nest:true})
-    ]);
-
-    const ordem = await OrdemServico.findOne({where:{id:busca}});
-
-    const ordemWithStatus = {
-        ...ordem,
-        autorizacao: autorizacoes.find(a => a.id === ordem.autorizado).nome,
-        status: statuses.find(s => s.id === ordem.statusId).nome
-    };
-
-    response.render('listarOS',{ordens: ordemWithStatus});
+    const dados = await Cliente.findOne({where:{id:busca}});
+    console.log(dados);
+    response.render('obterDados',{dados:[dados]});
 });
 
-rotas.get('/atualizaOrdem/:id',async (request,response)=>{
+rotas.get('/atualizaOrdem/:id',async(request,response)=>{
     const busca = request.params.id;
-    const autorizacaoMap = await Autorizacao.findAll({raw:true,nest:true});
-    const statusMap = await Status.findAll({raw:true,nest:true});
-    const ordem = await OrdemServico.findOne({where:{id:busca}});
-    const ordemWithStatus = {
-        ...ordem,
-        autorizacao: autorizacaoMap.find(a => a.id === ordem.autorizado).nome,
-        status: statusMap.find(s=> s.id === ordem.statusId).nome
-
-    };
-    console.log(ordemWithStatus);
-    response.render('obterOS',{ordem:[ordemWithStatus]});
+    const dadosOs = await OrdemServico.findOne({where:{id:busca}});
+    const statusList = await Status.findAll({raw:true,nest:true});
+    const autorizacaoList = await Autorizacao.findAll({raw:true,nest:true});
+    console.log(dadosOs,statusList,autorizacaoList);
+    response.render('obterOS',{ordem:[dadosOs],status:statusList,autorizado:autorizacaoList});
 });
 
 
