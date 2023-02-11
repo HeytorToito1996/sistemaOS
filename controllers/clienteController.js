@@ -89,15 +89,5 @@ router.get('/clientes',(request,response)=>{
     });
 });
 
-router.get('/buscaCliente/:cpf',(request,response)=>{
-    let busca = request.params.cpf;
-
-    Cliente.findAll({where:{cpf:busca}}).then((clientes)=>{
-        response.send({clientes: clientes});
-    }).catch((erro)=>{
-        //console.error(erro);
-        response.send('Não Há Cliente com o CPF Informado');
-    })
-});
 
 module.exports = router;
